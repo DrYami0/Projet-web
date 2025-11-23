@@ -1,0 +1,272 @@
+/* Backoffice Styles */
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.MainTitle.smallHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    background: linear-gradient(135deg, #0195a8, #017a8a);
+    color: #fff;
+}
+
+.MainTitle.smallHeader .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.MainTitle.smallHeader img {
+    height: 56px;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.MainTitle.smallHeader h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.MainTitle.smallHeader p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 13px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 18px;
+    flex: 1;
+    width: 100%;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+#filterInput {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0195a8, #017a8a);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn.secondary {
+    background: #ffffff;
+    color: #017a8a;
+    border: 1px solid #e0e0e0;
+}
+
+.tableWrap {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #ececec;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    overflow-x: auto;
+}
+
+.wordsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    min-width: 800px;
+}
+
+.wordsTable caption {
+    caption-side: top;
+    text-align: left;
+    padding-bottom: 12px;
+    font-weight: 700;
+    color: #017a8a;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.wordsTable thead th {
+    background: linear-gradient(180deg, #f6f9fa, #eef6f8);
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e6eef0;
+    font-weight: 600;
+    color: #017a8a;
+}
+
+.wordsTable tbody td {
+    padding: 12px 10px;
+    border-bottom: 1px dashed #f0f4f5;
+}
+
+.wordsTable tbody tr:hover {
+    background: linear-gradient(90deg, rgba(1, 149, 168, 0.04), transparent);
+}
+
+.empty {
+    padding: 28px;
+    text-align: center;
+    color: #666;
+    font-weight: 600;
+    font-style: italic;
+}
+
+footer {
+    background: linear-gradient(135deg, #0195a8, #017a8a);
+    color: #fff;
+    padding: 18px;
+    text-align: center;
+    margin-top: 18px;
+    border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .actions {
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .MainTitle.smallHeader img {
+        height: 44px;
+    }
+    
+    .wordsTable thead th, 
+    .wordsTable tbody td {
+        padding: 10px 8px;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Styles pour les formulaires */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #0195a8;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(1, 149, 168, 0.2);
+}
+
+/* Alertes */
+.alert {
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    color: #2e7d32;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    color: #c62828;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination li a,
+.pagination li span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.pagination li.active a,
+.pagination li a:hover {
+    background: #0195a8;
+    color: #fff;
+    border-color: #0195a8;
+}
