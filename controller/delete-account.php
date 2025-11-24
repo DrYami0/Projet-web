@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $username = $_SESSION['uid']; 
 
 
-$stmt = $pdo->prepare("SELECT avatar FROM users WHERE username = ?");
+$stmt = $pdo->prepare("SELECT uid FROM users WHERE username = ?");
 $stmt->execute([$username]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-if ($user && !empty($user['avatar'])) {
-    $avatarPath = str_replace(BASE_URL, '', $user['avatar']);
+if ($user && !empty($user['uid'])) {
+    $avatarPath = str_replace(BASE_URL, '', $user['uid']);
     $avatarFullPath = __DIR__ . '/../' . $avatarPath;
     if (file_exists($avatarFullPath)) {
         @unlink($avatarFullPath);
