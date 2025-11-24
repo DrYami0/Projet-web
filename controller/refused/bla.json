@@ -1,0 +1,12 @@
+{
+    "username": "bla",
+    "firstName": "",
+    "lastName": "",
+    "email": "bla@bla.com",
+    "phone": "",
+    "passwordHash": "$2y$10$xIOucDnv1RCvsv8YeMriL.Vj.LF.adhvpicLv9O.hL7JePp8g.wiC",
+    "role": 0,
+    "accepted": false,
+    "created_at": 1763646630,
+    "refused_at": "2025-11-20 14:50:46"
+}

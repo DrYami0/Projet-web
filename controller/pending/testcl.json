@@ -1,0 +1,11 @@
+{
+    "username": "testcl",
+    "firstName": "",
+    "lastName": "",
+    "email": "testcl@gmail.com",
+    "phone": "",
+    "passwordHash": "$2y$10$7eJN1VmlfUFiGZg3oOukGOkRFOWg5NwrSWEYKRq4wqClR1OakFEKe",
+    "role": 0,
+    "accepted": null,
+    "created_at": "2025-11-20 12:16:57"
+}

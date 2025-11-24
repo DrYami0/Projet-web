@@ -1,0 +1,10 @@
+{
+    "username": "ADMIN",
+    "firstName": "",
+    "lastName": "",
+    "email": "louayfkiri06@gmail.com",
+    "phone": "",
+    "passwordHash": "$2y$10$G9HBga8KqcHB8Ub7eozWyuP8icGoPnSWmFajjZRNrm3OsV6Ju2OsG",
+    "role": 1,
+    "accepted": true
+}

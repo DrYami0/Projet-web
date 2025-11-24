@@ -1,0 +1,13 @@
+{
+    "username": "hmmm",
+    "firstName": "help",
+    "lastName": "",
+    "email": "hmm@hmm.com",
+    "phone": null,
+    "passwordHash": "$2y$10$Y.f146A4rDSpm.BhVpYj..q5U8ecoFCsVSxiiGLrNrX5DTvu2upUS",
+    "role": 0,
+    "created_at": 1763723002,
+    "status": "pending",
+    "accepted": true,
+    "approved_at": "2025-11-21 12:04:13"
+}

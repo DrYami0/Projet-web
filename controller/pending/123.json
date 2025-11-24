@@ -1,0 +1,10 @@
+{
+    "username": "123",
+    "firstName": "",
+    "lastName": "",
+    "email": "123@123.com",
+    "phone": "",
+    "passwordHash": "$2y$10$.9cMvTz.QQ2lpVzBa.EobO.XzCbruRKpRkgKCmFeSRMNfxlSwwtFG",
+    "role": 0,
+    "accepted": null
+}

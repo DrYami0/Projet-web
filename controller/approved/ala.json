@@ -1,0 +1,12 @@
+{
+    "username": "ala",
+    "firstName": "",
+    "lastName": "",
+    "email": "azzabialaa223@gmail.com",
+    "phone": "",
+    "passwordHash": "$2y$10$ryxf3C1tTmwVJTUeATVWI.WtyoWqtpR\/gBX.lDeYQS0OAWo4FvhJW",
+    "role": 0,
+    "accepted": true,
+    "created_at": 1763641992,
+    "approved_at": "2025-11-20 13:36:46"
+}
