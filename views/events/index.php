@@ -17,9 +17,6 @@ ob_start();
                             <th>ID</th>
                             <th>Title</th>
                             <th>End Date</th>
-                            <th>Gift1</th>
-                            <th>Gift2</th>
-                            <th>Gift3</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -29,13 +26,11 @@ ob_start();
                             <td><?= htmlspecialchars((string)$event->getEid(), ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= htmlspecialchars($event->getTitle(), ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= htmlspecialchars($event->getEndDate(), ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars((string)$event->getGift1(), ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($event->getGift2(), ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($event->getGift3(), ENT_QUOTES, 'UTF-8') ?></td>
                             <td class="d-flex gap-1">
                                 <a href="index.php?controller=events&action=edit&id=<?= $event->getEid() ?>" class="btn btn-sm btn-outline-primary">Edit</a>
                                 <a href="index.php?controller=events&action=delete&id=<?= $event->getEid() ?>" class="btn btn-sm btn-outline-danger">Delete</a>
                                 <a href="index.php?controller=eventPlayers&action=index&eid=<?= $event->getEid() ?>" class="btn btn-sm btn-outline-secondary">Players</a>
+                                <a href="index.php?controller=eventGifts&action=index&eid=<?= $event->getEid() ?>" class="btn btn-sm btn-outline-success">Gifts</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

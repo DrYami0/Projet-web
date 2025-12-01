@@ -79,6 +79,8 @@ class EventPlayersController
 
             if ($uid === '') {
                 $error = 'User is required';
+            } elseif (!is_numeric($score) || (int)$score < 0) {
+                $error = 'Score must be a number greater than or equal to 0';
             } else {
                 $stmt = $this->pdo->prepare('INSERT INTO event_players (eid, uid, score) VALUES (?, ?, ?)');
                 $stmt->execute([
@@ -120,13 +122,17 @@ class EventPlayersController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $score = trim($_POST['score'] ?? '0');
 
-            $stmt = $this->pdo->prepare('UPDATE event_players SET score = ? WHERE epid = ?');
-            $stmt->execute([
-                (int)$score,
-                $player->getEpid(),
-            ]);
-            header('Location: index.php?controller=eventPlayers&action=index&eid=' . $player->getEid());
-            exit;
+            if (!is_numeric($score) || (int)$score < 0) {
+                $error = 'Score must be a number greater than or equal to 0';
+            } else {
+                $stmt = $this->pdo->prepare('UPDATE event_players SET score = ? WHERE epid = ?');
+                $stmt->execute([
+                    (int)$score,
+                    $player->getEpid(),
+                ]);
+                header('Location: index.php?controller=eventPlayers&action=index&eid=' . $player->getEid());
+                exit;
+            }
         }
 
         include __DIR__ . '/../views/event_players/edit.php';

@@ -20,6 +20,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?controller=events&action=index">Events</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?controller=gifts&action=index">Gifts</a>
+                    </li>
                 </ul>
             </div>
             <ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
@@ -62,6 +65,9 @@
                     <ul class="nav nav-pills-primary-soft flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" href="index.php?controller=events&action=index"><i class="bi bi-calendar-event fa-fw me-2"></i>Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?controller=gifts&action=index"><i class="bi bi-gift fa-fw me-2"></i>Gifts</a>
                         </li>
                     </ul>
                 </div>

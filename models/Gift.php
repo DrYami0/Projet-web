@@ -1,32 +1,20 @@
 <?php
 class Gift {
     private ?int $id;
-    private int $eventId;
     private string $name;
+    private int $points;
 
-    public function __construct(?int $id, int $eventId, string $name) {
-        $this->id      = $id;
-        $this->eventId = $eventId;
-        $this->name    = $name;
+    public function __construct(?int $id, string $name, int $points)
+    {
+        $this->id     = $id;
+        $this->name   = $name;
+        $this->points = $points;
     }
 
-    public function getId(): ?int {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
+    public function getName(): string { return $this->name; }
+    public function getPoints(): int { return $this->points; }
 
-    public function getEventId(): int {
-        return $this->eventId;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setEventId(int $eventId): void {
-        $this->eventId = $eventId;
-    }
-
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
+    public function setName(string $name): void { $this->name = $name; }
+    public function setPoints(int $points): void { $this->points = $points; }
 }
