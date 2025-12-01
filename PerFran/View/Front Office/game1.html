@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="game1.css" type="text/css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfran | Jeu de Grammaire</title>
+  </head>
+  <body>
+    <a href="index.html" style="text-decoration: none">
+      <div class="MainTitle">
+        <img src="Perfran.png" alt="Perfran Logo" width="250px" />
+        <p>Etudiez et jouez, Deux en un!</p>
+      </div>
+    </a>
+
+    <main class="container">
+      <section class="modeChoice">
+        <p>Choisissez le mode de jeu</p>
+        <button id="buttonSolo">Solo</button>
+        <button id="buttonMultiplayer">Multijoueur</button>
+      </section>
+
+      <section class="difficultyChoice hidden">
+        <p>Choisissez la difficulté</p>
+        <button data-diff="Easy" id="diffButtonEasy">Débutant</button>
+        <button data-diff="Medium" id="diffButtonMedium">Intermédiaire</button>
+        <button data-diff="Hard" id="diffButtonHard">Avancé</button>
+        <button id="backToMode" class="small">Retour</button>
+      </section>
+
+      <!-- Solo area -->
+      <section class="game soloGame hidden" aria-hidden="true">
+        <p id="labelTimerSolo" class="labelTimer">Bonne Chance!</p>
+        <div class="wordSelector" id="wordSelectorSolo">À vos places!</div>
+
+        <div class="answers" id="answersSolo">
+          <button class="answersBtn" id="Nom/G.N">Nom/G.N</button>
+          <button class="answersBtn" id="Adjectif">Adjectif</button>
+          <button class="answersBtn" id="Verbe">Verbe</button>
+          <button class="answersBtn" id="Déterminant">Déterminant</button>
+          <div class="mediumAnswers">
+            <button class="answersBtn" id="Adverbe">Adverbe</button>
+            <button class="answersBtn" id="Préposition">Préposition</button>
+          </div>
+          <div class="hardAnswers">
+            <button class="answersBtn" id="Pronom">Pronom</button>
+            <button class="answersBtn" id="Conjonction">Conjonction</button>
+          </div>
+        </div>
+
+        <div class="score" id="scoreSolo"><p>0/40</p></div>
+      </section>
+
+      <!-- Multiplayer area (split-screen) -->
+      <section class="multiplayer hidden" aria-hidden="true">
+        <div class="multiplayerHeader">
+          <p>Room: <span id="roomId">-</span> (session placeholder)</p>
+          <button id="leaveRoom" class="small">Quitter</button>
+        </div>
+
+        <div class="split">
+          <div class="playerPanel" id="player1">
+            <h3>Joueur 1</h3>
+            <p id="labelTimerP1" class="labelTimer">Prêt</p>
+            <div class="wordSelector" id="wordSelectorP1">À vos places!</div>
+            <div class="answers" id="answersP1">
+              <!-- buttons copied from solo -->
+            </div>
+            <div class="score" id="scoreP1"><p>0/40</p></div>
+          </div>
+
+          <div class="divider" aria-hidden="true"></div>
+
+          <div class="playerPanel" id="player2">
+            <h3>Joueur 2</h3>
+            <p id="labelTimerP2" class="labelTimer">Prêt</p>
+            <div class="wordSelector" id="wordSelectorP2">À vos places!</div>
+            <div class="answers" id="answersP2">
+              <!-- buttons copied from solo -->
+            </div>
+            <div class="score" id="scoreP2"><p>0/40</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="gameResults"><p id="resultsArea"></p></section>
+    </main>
+
+    <script src="game1.js"></script>
+    <footer>
+      <p>Copyright &copy; 2023 Prism Studio | All rights reserved</p>
+    </footer>
+  </body>
+</html>
