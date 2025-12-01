@@ -1,31 +1,35 @@
 <?php
 
-
 class User {
-    // === Attributs ===
-    private $uid;           // ID unique de l'utilisateur 
-    private $username;      // Nom d'utilisateur
-    private $firstName;     // Prénom
-    private $lastName;      // Nom 
-    private $passwordHash;  // Mot de passe hash
-    private $email;         // Email
-    private $phone;         // Téléphone
-    private $role;          // Rôle (0 = utilisateur, 1 = admin)
-    private $totalScore1;   // Score total jeu 1
-    private $totalScore2;   // Score total jeu 2
-    private $totalScore3;   // Score total jeu 3
-    private $dailyScore1;   // Score quotidien jeu 1
-    private $dailyScore2;   // Score quotidien jeu 2
-    private $dailyScore3;   // Score quotidien jeu 3
-    private $streak;        // Série de victoires consécutives
-    private $gamesPlayed1;  // Parties jouées jeu 1
-    private $gamesPlayed2;  // Parties jouées jeu 2
-    private $gamesPlayed3;  // Parties jouées jeu 3
-    private $wins;          // Nombre de victoires totales
-    private $losses;        // Nombre de défaites totales
-    private $creationDate;  // Date de création du compte
+    
+    private $uid;
+    private $username;
+    private $firstName;
+    private $lastName;
+    private $passwordHash;
+    private $email;
+    private $phone;
+    private $role;
+    private $totalScore1;
+    private $totalScore2;
+    private $totalScore3;
+    private $dailyScore1;
+    private $dailyScore2;
+    private $dailyScore3;
+    private $streak;
+    private $gamesPlayed1;
+    private $gamesPlayed2;
+    private $gamesPlayed3;
+    private $wins;
+    private $losses;
+    private $creationDate;
+    private $avatar;
+    private $status;
+    private $deletedAt;
+    private $bannedUntil;
+    private $socialId;
+    private $provider;
 
-  
     public function __construct(
         $uid = null,
         $username = null,
@@ -136,7 +140,24 @@ class User {
     public function getCreationDate() { return $this->creationDate; }
     public function setCreationDate($date) { $this->creationDate = $date; }
 
-    // === Méthodes utilitaires ===
+    public function getAvatar() { return $this->avatar; }
+    public function setAvatar($avatar) { $this->avatar = $avatar; }
+
+    public function getStatus() { return $this->status; }
+    public function setStatus($status) { $this->status = $status; }
+
+    public function getDeletedAt() { return $this->deletedAt; }
+    public function setDeletedAt($deletedAt) { $this->deletedAt = $deletedAt; }
+
+    public function getBannedUntil() { return $this->bannedUntil; }
+    public function setBannedUntil($bannedUntil) { $this->bannedUntil = $bannedUntil; }
+
+    public function getSocialId() { return $this->socialId; }
+    public function setSocialId($socialId) { $this->socialId = $socialId; }
+
+    public function getProvider() { return $this->provider; }
+    public function setProvider($provider) { $this->provider = $provider; }
+
     public function getFullName() {
         $parts = array_filter([$this->firstName, $this->lastName]);
         return !empty($parts) ? implode(' ', $parts) : $this->username;
