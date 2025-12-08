@@ -1,0 +1,29 @@
+; XAMPP Sendmail Configuration for Gmail
+; Updated for PerFran Quiz System
+
+[sendmail]
+
+; Gmail SMTP Server
+smtp_server=smtp.gmail.com
+
+; Gmail SMTP Port (587 for TLS)
+smtp_port=587
+
+; Use TLS for Gmail
+smtp_ssl=tls
+
+; Gmail Authentication
+auth_username=mahdimk.kar2005@gmail.com
+auth_password=your-app-password-here
+
+; Set sender email
+force_sender=mahdimk.kar2005@gmail.com
+
+; Log errors
+error_logfile=error.log
+
+; Uncomment for debugging
+;debug_logfile=debug.log
+
+; Hostname
+hostname=localhost
