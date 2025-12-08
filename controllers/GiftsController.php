@@ -13,8 +13,36 @@ class GiftsController
 
     public function index(): void
     {
-        $stmt = $this->pdo->query('SELECT id, name, points FROM gifts ORDER BY id DESC');
-        $rows = $stmt->fetchAll();
+        $searchTerm = isset($_GET['q']) ? trim((string)$_GET['q']) : '';
+        $minPoints  = isset($_GET['min_points']) ? trim((string)$_GET['min_points']) : '';
+
+        $conditions = [];
+        $params     = [];
+
+        if ($searchTerm !== '') {
+            $conditions[] = 'name LIKE ?';
+            $params[]     = '%' . $searchTerm . '%';
+        }
+
+        if ($minPoints !== '' && is_numeric($minPoints)) {
+            $conditions[] = 'points >= ?';
+            $params[]     = (int)$minPoints;
+        }
+
+        $sql = 'SELECT id, name, points FROM gifts';
+        if (!empty($conditions)) {
+            $sql .= ' WHERE ' . implode(' AND ', $conditions);
+        }
+        $sql .= ' ORDER BY id DESC';
+
+        if (!empty($params)) {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+        } else {
+            $stmt = $this->pdo->query($sql);
+            $rows = $stmt->fetchAll();
+        }
 
         $gifts = [];
         foreach ($rows as $row) {

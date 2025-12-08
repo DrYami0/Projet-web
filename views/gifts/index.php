@@ -7,6 +7,22 @@ ob_start();
         <a href="index.php?controller=gifts&action=create" class="btn btn-sm btn-primary">Create Gift</a>
     </div>
     <div class="card-body">
+        <form class="row g-2 mb-3" method="get" action="index.php">
+            <input type="hidden" name="controller" value="gifts">
+            <input type="hidden" name="action" value="index">
+            <div class="col-md-5">
+                <label class="form-label mb-1">Search by name</label>
+                <input type="text" name="q" class="form-control" value="<?= htmlspecialchars($searchTerm ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="Enter part of the gift name">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label mb-1">Minimum points</label>
+                <input type="number" name="min_points" class="form-control" value="<?= htmlspecialchars($minPoints ?? '', ENT_QUOTES, 'UTF-8') ?>" min="0">
+            </div>
+            <div class="col-md-4 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="index.php?controller=gifts&action=index" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </form>
         <?php if (empty($gifts)): ?>
             <p class="mb-0">No gifts found.</p>
         <?php else: ?>

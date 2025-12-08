@@ -19,6 +19,18 @@ ob_start();
                 <label class="form-label">End Date (YYYY-MM-DD HH:MM:SS)</label>
                 <input type="text" name="endDate" class="form-control" value="<?= htmlspecialchars($event->getEndDate(), ENT_QUOTES, 'UTF-8') ?>">
             </div>
+            <div class="col-md-4">
+                <label class="form-label">Gift1 (int)</label>
+                <input type="number" name="gift1" class="form-control" value="<?= htmlspecialchars((string)$event->getGift1(), ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Gift2</label>
+                <input type="text" name="gift2" class="form-control" value="<?= htmlspecialchars($event->getGift2(), ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Gift3</label>
+                <input type="text" name="gift3" class="form-control" value="<?= htmlspecialchars($event->getGift3(), ENT_QUOTES, 'UTF-8') ?>">
+            </div>
             <div class="col-12 text-end">
                 <button type="submit" class="btn btn-primary">Update</button>
             </div>
