@@ -4,22 +4,19 @@ class Punishment
 {
 
     private int $pid;
-    private int $punishedID;
-    private int $aid;
-    private int $rid;
+    private string $punishedID;
     private string $reason;    
-    private int $duration;  
+    private int $duration;
+    private string $banType; 
 
-    public function __construct( string $reason, int $punishedID, int $duration, int $rid,int $aid, int $pid)
+    public function __construct(string $punishedID, string $reason, int $duration, string $banType)
     {
         $this->punishedID = $punishedID;
         $this->reason = $reason;
         $this->duration = $duration;
-        $this->rid = $rid;
-        $this->aid = $aid;
-        $this->pid = $pid;
+        $this->banType = $banType;
     }
-    public function getPunishedID(): int
+    public function getPunishedID(): string
     {
         return $this->punishedID;
     }
@@ -31,23 +28,15 @@ class Punishment
     {
         return $this->duration;
     }
-    public function getRid(): int
+    public function getBanType(): string
     {
-        return $this->rid;
-    }
-    public function getRid(): int
-    {
-        return $this->rid;
-    }
-    public function getAid(): int
-    {
-        return $this->aid;
+        return $this->banType;
     }
     public function getPid(): int
     {
         return $this->pid;
     }
-    public function setPunishedID(int $punishedID): void
+    public function setPunishedID(string $punishedID): void
     {
         $this->punishedID = $punishedID;
     }
@@ -59,13 +48,9 @@ class Punishment
     {
         $this->duration = $duration;
     }
-    public function setRid(int $rid): void
+    public function setBanType(string $banType): void
     {
-        $this->rid = $rid;
-    }
-    public function setAid(int $aid): void
-    {
-        $this->aid = $aid;
+        $this->banType = $banType;
     }
     public function setPid(int $pid): void
     {
