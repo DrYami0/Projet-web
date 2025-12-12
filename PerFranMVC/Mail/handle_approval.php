@@ -49,9 +49,7 @@ if ($action === 'approve') {
     showMessage('info', 'Quiz Rejeté', 'La suggestion a été rejetée et supprimée.');
 }
 
-/**
- * Process and save approved suggestion to database
- */
+
 function processSuggestion(array $data): array
 {
     try {
@@ -88,9 +86,11 @@ function processSuggestion(array $data): array
             ];
         }
         
-        // Save blanks
+        // Save blanks with 1-indexed positions
         foreach ($blanks as $index => $answer) {
-            $blank = new QuizBlank(0, $quiz->qid, $index, trim($answer));
+            // Position must be 1-indexed (1, 2, 3...) not 0-indexed
+            $position = $index + 1;
+            $blank = new QuizBlank(0, $quiz->qid, $position, trim($answer));
             if (!QuizBlankController::save($blank)) {
                 return [
                     'success' => false,

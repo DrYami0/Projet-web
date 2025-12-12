@@ -50,279 +50,356 @@ shuffle($allWords);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu 3 - Quiz Drag & Drop</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/owl-mascot.css">
+    <link rel="stylesheet" href="assets/css/theme.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            background: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         .quiz-container {
             max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
+
         .quiz-header {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .quiz-header h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 32px;
         }
+
         .difficulty-badge {
             display: inline-block;
-            padding: 5px 15px;
+            padding: 8px 20px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
         .difficulty-badge.easy {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
         }
+
         .difficulty-badge.medium {
-            background: #fff3cd;
-            color: #856404;
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid #f1c40f;
         }
+
         .difficulty-badge.hard {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
         }
+
         .quiz-paragraph {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
+            background: rgba(10, 22, 40, 0.6);
+            padding: 30px;
+            border-radius: 12px;
             margin-bottom: 30px;
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 2;
             min-height: 150px;
+            color: #e0e6ed;
+            border: 1px solid rgba(0, 212, 255, 0.1);
         }
+
         .blank {
             display: inline-block;
             min-width: 120px;
-            height: 45px;
-            border: 2px dashed #3498db;
-            border-radius: 5px;
+            height: 40px;
+            border: 2px dashed #00d4ff;
+            border-radius: 8px;
             margin: 0 5px;
             vertical-align: middle;
-            background: #e8f4f8;
+            background: rgba(0, 212, 255, 0.1);
             position: relative;
             cursor: pointer;
+            transition: all 0.3s ease;
+            color: #fff;
+            text-align: center;
+            line-height: 36px;
         }
+
         .blank.drag-over {
-            border-color: #27ae60;
-            background: #d5f4e6;
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.2);
+            transform: scale(1.05);
         }
+
         .blank.filled {
-            border: 2px solid #3498db;
-            background: white;
+            border: 2px solid #00d4ff;
+            background: rgba(0, 212, 255, 0.2);
+            color: #fff;
+            font-weight: 600;
         }
+
         .blank-word {
             display: inline-block;
-            padding: 8px 15px;
-            margin: 5px;
-            background: #3498db;
+            padding: 10px 20px;
+            margin: 8px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: move;
             user-select: none;
             transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 212, 255, 0.2);
         }
+
         .blank-word:hover {
-            background: #2980b9;
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 212, 255, 0.3);
         }
+
         .blank-word.dragging {
             opacity: 0.5;
+            transform: scale(0.95);
         }
+
         .words-container {
-            background: #e8f4f8;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(10, 22, 40, 0.6);
+            padding: 25px;
+            border-radius: 12px;
             margin-bottom: 30px;
             min-height: 100px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
         }
+
         .words-container h4 {
-            margin-bottom: 15px;
-            color: #2c3e50;
+            margin-bottom: 20px;
+            color: #b0c4de;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
         .words-list {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            justify-content: center;
         }
+
         .btn-validate {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             font-size: 18px;
             font-weight: bold;
-            background: #27ae60;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
         }
+
         .btn-validate:hover {
-            background: #229954;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
         }
+
         .btn-validate:disabled {
             background: #95a5a6;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
+
         .results {
             display: none;
             margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .results h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .score {
             text-align: center;
-            font-size: 48px;
-            font-weight: bold;
+            font-size: 56px;
+            font-weight: 800;
             margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
-        .score.excellent {
-            color: #27ae60;
-        }
-        .score.good {
-            color: #f39c12;
-        }
-        .score.poor {
-            color: #e74c3c;
-        }
+
+        .score.excellent { color: #2ecc71; }
+        .score.good { color: #f1c40f; }
+        .score.poor { color: #e74c3c; }
+
         .result-item {
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 15px;
         }
+
         .result-item.correct {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
         }
+
         .result-item.incorrect {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
         }
+
         .btn-retry {
             margin-top: 20px;
             padding: 12px 30px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s;
         }
+
         .btn-retry:hover {
-            background: #2980b9;
+            background: #00d4ff;
+            color: #0a1628;
         }
     </style>
 </head>
 <body>
-    <header class="navbar-light header-sticky">
-        <nav class="navbar navbar-expand-xl">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">
-                    <img class="navbar-brand-item" src="assets/img/logo.png" alt="logo">
-                </a>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo" onclick="window.location.href='index.php'">
+            <img src="../../View/Perfran.png" alt="PerFran Logo" style="height: 60px; width: auto;">
+        </div>
+        <div class="nav-links">
+            <a href="index.php#games">Jeux</a>
+            <a href="index.php#features">Fonctionnalités</a>
+        </div>
+        <div class="nav-buttons">
+            <a href="index.php" class="btn btn-outline">
+                <i class="fas fa-home"></i> Accueil
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding-top: 120px; padding-bottom: 60px;">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2>Jeu 3 - Quiz Drag & Drop</h2>
+                <span class="difficulty-badge <?= htmlspecialchars($difficulty) ?>">
+                    <?= htmlspecialchars(ucfirst($difficulty)) ?>
+                </span>
             </div>
-        </nav>
-    </header>
 
-    <div class="quiz-container">
-        <div class="quiz-header">
-            <h2>Jeu 3 - Quiz Drag & Drop</h2>
-            <span class="difficulty-badge <?= htmlspecialchars($difficulty) ?>">
-                <?= htmlspecialchars(ucfirst($difficulty)) ?>
-            </span>
-        </div>
-
-        <div class="quiz-paragraph" id="quizParagraph">
-            <?php
-            $blankIndex = 0;
-            $displayParagraph = preg_replace_callback(
-                '/\[([^\]]+)\]/',
-                function($match) use (&$blankIndex) {
-                    $blankIndex++;
-                    return '<span class="blank" data-position="' . ($blankIndex - 1) . '" data-correct="' . htmlspecialchars($match[1]) . '"></span>';
-                },
-                $paragraph
-            );
-            echo $displayParagraph;
-            ?>
-        </div>
-
-        <div class="words-container">
-            <h4>Glissez les mots dans les espaces vides :</h4>
-            <div class="words-list" id="wordsList">
-                <?php foreach ($allWords as $word): ?>
-                    <span class="blank-word" draggable="true" data-word="<?= htmlspecialchars($word) ?>">
-                        <?= htmlspecialchars($word) ?>
-                    </span>
-                <?php endforeach; ?>
+            <div class="quiz-paragraph" id="quizParagraph">
+                <?php
+                $blankIndex = 0;
+                $displayParagraph = preg_replace_callback(
+                    '/\[([^\]]+)\]/',
+                    function($match) use (&$blankIndex) {
+                        $blankIndex++;
+                        return '<span class="blank" data-position="' . ($blankIndex - 1) . '" data-correct="' . htmlspecialchars($match[1]) . '"></span>';
+                    },
+                    $paragraph
+                );
+                echo $displayParagraph;
+                ?>
             </div>
-        </div>
 
-        <!-- Voice Mode Controls -->
-        <div style="text-align: right; margin-bottom: 15px;">
-            <button id="voiceModeBtn" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); transition: all 0.3s;">
-                <span style="font-size: 18px;">🎤</span>
-                <span id="voiceBtnText">Mode Vocal</span>
-            </button>
-        </div>
+            <div class="words-container">
+                <h4>Glissez les mots dans les espaces vides :</h4>
+                <div class="words-list" id="wordsList">
+                    <?php foreach ($allWords as $word): ?>
+                        <span class="blank-word" draggable="true" data-word="<?= htmlspecialchars($word) ?>">
+                            <?= htmlspecialchars($word) ?>
+                        </span>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
-        <!-- Voice Listening Indicator -->
-        <div id="voiceIndicator" style="display: none; background: #667eea; border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center; box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
-                <div style="font-size: 32px; animation: pulse 2s infinite;">🎤</div>
-                <div style="flex: 1; text-align: left;">
-                    <p style="font-size: 14px; color: white; font-weight: 600; margin: 0 0 5px 0;">Écoute active...</p>
-                    <div style="background: white; border-radius: 6px; padding: 8px 12px;">
-                        <p id="voiceTranscript" style="font-size: 16px; color: #2c3e50; margin: 0; font-weight: 600; min-height: 20px;"></p>
+            <!-- Voice Mode Controls -->
+            <div style="text-align: right; margin-bottom: 20px;">
+                <button id="voiceModeBtn" style="padding: 10px 20px; background: rgba(102, 126, 234, 0.2); color: #667eea; border: 2px solid #667eea; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s;">
+                    <span style="font-size: 18px;">🎤</span>
+                    <span id="voiceBtnText">Mode Vocal</span>
+                </button>
+            </div>
+
+            <!-- Voice Listening Indicator -->
+            <div id="voiceIndicator" style="display: none; background: rgba(102, 126, 234, 0.1); border: 1px solid #667eea; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: center;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <div style="font-size: 32px; animation: pulse 2s infinite;">🎤</div>
+                    <div style="flex: 1; text-align: left;">
+                        <p style="font-size: 14px; color: #667eea; font-weight: 600; margin: 0 0 5px 0;">Écoute active...</p>
+                        <div style="background: rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 8px 12px;">
+                            <p id="voiceTranscript" style="font-size: 16px; color: #fff; margin: 0; font-weight: 600; min-height: 20px;"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <style>
-            @keyframes pulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.15); }
-            }
-        </style>
+            
+            <style>
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); opacity: 1; }
+                    50% { transform: scale(1.15); opacity: 0.7; }
+                }
+            </style>
 
-        <button class="btn-validate" id="btnValidate" onclick="validateAnswers()">
-            Valider les réponses
-        </button>
-
-        <div class="results" id="results">
-            <h3>Résultats</h3>
-            <div class="score" id="scoreDisplay"></div>
-            <div id="resultsDetails"></div>
-            <a href="quiz_play.php?difficulty=<?= htmlspecialchars($difficulty) ?>" class="btn-retry">
-                Nouveau Quiz
-            </a>
-            <a href="jeu3_solo.html" class="btn-retry" style="margin-left: 10px;">
-                Changer de difficulté
-            </a>
-            <button type="button" class="btn-retry" style="margin-left: 10px; background-color: #f39c12;" onclick="window.location.href='suggest.php'">
-                Suggérer un quiz
+            <button class="btn-validate" id="btnValidate" onclick="validateAnswers()">
+                Valider les réponses
             </button>
+
+            <div class="results" id="results">
+                <h3>Résultats</h3>
+                <div class="score" id="scoreDisplay"></div>
+                <div id="resultsDetails"></div>
+                <div style="text-align: center;">
+                    <a href="quiz_play.php?difficulty=<?= htmlspecialchars($difficulty) ?>" class="btn-retry">
+                        <i class="fas fa-redo"></i> Nouveau Quiz
+                    </a>
+                    <a href="jeu3_solo.html" class="btn-retry" style="margin-left: 10px;">
+                        <i class="fas fa-layer-group"></i> Changer de difficulté
+                    </a>
+                    <button type="button" class="btn-retry" style="margin-left: 10px; border-color: #f1c40f; color: #f1c40f;" onclick="window.location.href='suggest.php'">
+                        <i class="fas fa-lightbulb"></i> Suggérer un quiz
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 PerfRan - Tous droits réservés | <a href="login.php">Connexion</a></p>
+    </footer>
+
+    <!-- Interactive Owl Mascot -->
+    <script src="assets/js/owl-mascot.js"></script>
 
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/popper.js"></script>
@@ -469,7 +546,12 @@ shuffle($allWords);
             
             if (!allFilled) {
                 console.log(`${emptyCount} blank(s) still empty`);
-                showWarning('Action requise', `Veuillez remplir tous les espaces vides avant de valider. (${emptyCount} restant(s))`);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Action requise',
+                    text: `Veuillez remplir tous les espaces vides avant de valider. (${emptyCount} restant(s))`,
+                    confirmButtonColor: '#3498db'
+                });
                 return;
             }
             
@@ -496,12 +578,22 @@ shuffle($allWords);
                     isSubmitted = true;
                     document.getElementById('btnValidate').disabled = true;
                 } else {
-                    showError('Erreur', data.message || 'Une erreur est survenue lors de la validation.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: data.message || 'Une erreur est survenue lors de la validation.',
+                        confirmButtonColor: '#e74c3c'
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showError('Erreur', 'Une erreur est survenue lors de la validation.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue lors de la validation.',
+                    confirmButtonColor: '#e74c3c'
+                });
             });
         }
 
@@ -525,15 +617,15 @@ shuffle($allWords);
             scoreDisplay.className = 'score ' + scoreClass;
             
             // Préparer les détails
-            let detailsHTML = '<p><strong>Résultats: ' + data.correctCount + '/' + data.totalBlanks + ' correctes</strong></p>';
+            let detailsHTML = '<p style="text-align:center; color:#b0c4de; margin-bottom:20px;"><strong>Résultats: ' + data.correctCount + '/' + data.totalBlanks + ' correctes</strong></p>';
             data.results.forEach((result, index) => {
                 if (result.isCorrect) {
                     detailsHTML += `<div class="result-item correct">
-                        ✓ Position ${result.position}: "${result.userAnswer}" - Correct
+                        <i class="fas fa-check-circle"></i> Position ${result.position}: "${result.userAnswer}" - Correct
                     </div>`;
                 } else {
                     detailsHTML += `<div class="result-item incorrect">
-                        ✗ Position ${result.position}: "${result.userAnswer}" - Incorrect (Réponse: "${result.correctAnswer}")
+                        <i class="fas fa-times-circle"></i> Position ${result.position}: "${result.userAnswer}" - Incorrect (Réponse: "${result.correctAnswer}")
                     </div>`;
                 }
             });
@@ -546,10 +638,12 @@ shuffle($allWords);
             Swal.fire({
                 icon: icon,
                 title: 'Résultats du Quiz',
-                html: '<div style="font-size: 48px; font-weight: bold; margin: 20px 0; color: ' + (data.score >= 80 ? '#27ae60' : data.score >= 50 ? '#f39c12' : '#e74c3c') + ';">' + data.score + '%</div>' + detailsHTML,
+                html: '<div style="font-size: 48px; font-weight: bold; margin: 20px 0; color: ' + (data.score >= 80 ? '#2ecc71' : data.score >= 50 ? '#f1c40f' : '#e74c3c') + ';">' + data.score + '%</div>',
                 confirmButtonText: 'OK',
                 confirmButtonColor: '#3498db',
-                width: '600px'
+                width: '600px',
+                background: '#1a2f4a',
+                color: '#fff'
             });
         }
 
@@ -575,17 +669,17 @@ shuffle($allWords);
                     
                     if (isFinal) {
                         // Final result - process it
-                        transcriptEl.innerHTML = '<span style="color: #27ae60;">✓ ' + transcript + '</span>';
+                        transcriptEl.innerHTML = '<span style="color: #2ecc71;">✓ ' + transcript + '</span>';
                         console.log('Voice recognized:', transcript);
                         processVoiceCommand(transcript.toLowerCase().trim());
                         
                         // Clear after 2 seconds
                         setTimeout(() => {
-                            transcriptEl.innerHTML = '<span style="color: #95a5a6;">Parlez...</span>';
+                            transcriptEl.innerHTML = '<span style="color: rgba(255,255,255,0.5);">Parlez...</span>';
                         }, 2000);
                     } else {
                         // Interim result - show in blue
-                        transcriptEl.innerHTML = '<span style="color: #3498db;">' + transcript + '</span>';
+                        transcriptEl.innerHTML = '<span style="color: #00d4ff;">' + transcript + '</span>';
                     }
                 }
             };
@@ -595,7 +689,7 @@ shuffle($allWords);
                 if (event.error === 'no-speech') {
                     return; // Continue listening
                 }
-                showWarning('Erreur vocale', 'Erreur: ' + event.error);
+                Swal.fire('Erreur vocale', 'Erreur: ' + event.error, 'error');
             };
 
             recognition.onend = function() {
@@ -615,7 +709,7 @@ shuffle($allWords);
         // Toggle voice mode
         document.getElementById('voiceModeBtn').addEventListener('click', async function() {
             if (!recognition) {
-                showWarning('Non supporté', 'Votre navigateur ne supporte pas la reconnaissance vocale. Utilisez Chrome ou Edge.');
+                Swal.fire('Non supporté', 'Votre navigateur ne supporte pas la reconnaissance vocale. Utilisez Chrome ou Edge.', 'warning');
                 return;
             }
 
@@ -629,7 +723,7 @@ shuffle($allWords);
                     await navigator.mediaDevices.getUserMedia({ audio: true });
                 } catch (err) {
                     console.error('Microphone permission denied:', err);
-                    showWarning('Permission refusée', 'Veuillez autoriser l\'accès au microphone.');
+                    Swal.fire('Permission refusée', 'Veuillez autoriser l\'accès au microphone.', 'error');
                     voiceModeActive = false;
                     return;
                 }
@@ -637,7 +731,9 @@ shuffle($allWords);
                 // Start recognition
                 try {
                     recognition.start();
-                    this.style.background = '#e74c3c';
+                    this.style.borderColor = '#e74c3c';
+                    this.style.color = '#e74c3c';
+                    this.style.background = 'rgba(231, 76, 60, 0.2)';
                     btnText.textContent = '🔴 Actif';
                     indicator.style.display = 'block';
                     console.log('Voice mode activated');
@@ -648,7 +744,9 @@ shuffle($allWords);
             } else {
                 // Stop recognition
                 recognition.stop();
-                this.style.background = '#667eea';
+                this.style.borderColor = '#667eea';
+                this.style.color = '#667eea';
+                this.style.background = 'rgba(102, 126, 234, 0.2)';
                 btnText.textContent = 'Mode Vocal';
                 indicator.style.display = 'none';
                 console.log('Voice mode deactivated');
@@ -657,7 +755,6 @@ shuffle($allWords);
 
         /**
          * Process voice command and fill ALL blanks from complete sentence
-         * NEW APPROACH: Match words in the order they appear in the paragraph
          */
         function processVoiceCommand(transcript) {
             console.log('🎤 Processing complete sentence:', transcript);
@@ -673,12 +770,9 @@ shuffle($allWords);
                 expectedNormalized: normalizeText(blank.dataset.correct)
             }));
 
-            console.log('Expected words in order:', expectedWords.map(e => e.expectedWord));
-
             // Split transcript into words
             const spokenWords = transcript.toLowerCase().split(/\s+/);
-            console.log('Spoken words:', spokenWords);
-
+            
             // Create a map of available words for quick lookup
             const availableWordsMap = new Map();
             availableWords.forEach(wordEl => {
@@ -690,8 +784,6 @@ shuffle($allWords);
                     normalized: normalized
                 });
             });
-
-            console.log('Available words:', Array.from(availableWordsMap.values()).map(w => w.word));
 
             // Match each expected blank with spoken words
             const matches = [];
@@ -720,21 +812,15 @@ shuffle($allWords);
                         // Check if we have this word available
                         if (availableWordsMap.has(expected.expectedNormalized)) {
                             foundWord = availableWordsMap.get(expected.expectedNormalized);
-                            console.log(`✓ Blank ${index}: "${expected.expectedWord}" found in sentence`);
                             break;
                         }
                         
                         // Also check with the spoken normalized version
                         if (availableWordsMap.has(spokenNormalized)) {
                             foundWord = availableWordsMap.get(spokenNormalized);
-                            console.log(`✓ Blank ${index}: "${expected.expectedWord}" matched with spoken "${spokenWord}"`);
                             break;
                         }
                     }
-                }
-
-                if (!foundWord) {
-                    console.log(`✗ Blank ${index}: "${expected.expectedWord}" NOT found in sentence`);
                 }
 
                 matches.push({ blank: expected, word: foundWord });
@@ -744,11 +830,8 @@ shuffle($allWords);
             const filledCount = matches.filter(m => m.word !== null).length;
             
             if (filledCount === 0) {
-                console.log('❌ No matches found in sentence');
                 return;
             }
-
-            console.log(`📝 Filling ${filledCount}/${expectedWords.length} blanks!`);
 
             // Fill all matched blanks
             matches.forEach((match, index) => {
@@ -771,11 +854,9 @@ shuffle($allWords);
                     
                     // Visual feedback with staggered animation
                     setTimeout(() => {
-                        blank.style.background = '#d4edda';
-                        blank.style.borderColor = '#27ae60';
+                        blank.style.background = 'rgba(46, 204, 113, 0.2)';
+                        blank.style.borderColor = '#2ecc71';
                     }, index * 100);
-                    
-                    console.log(`✅ Filled position ${position} with "${wordToFill}"`);
                 }
             });
 
@@ -783,9 +864,9 @@ shuffle($allWords);
             setTimeout(() => {
                 const transcriptEl = document.getElementById('voiceTranscript');
                 if (filledCount === expectedWords.length) {
-                    transcriptEl.innerHTML = '<span style="color: #27ae60;">✅ Tous les blancs remplis !</span>';
+                    transcriptEl.innerHTML = '<span style="color: #2ecc71;">✅ Tous les blancs remplis !</span>';
                 } else {
-                    transcriptEl.innerHTML = `<span style="color: #f39c12;">⚠️ ${filledCount}/${expectedWords.length} blancs remplis</span>`;
+                    transcriptEl.innerHTML = `<span style="color: #f1c40f;">⚠️ ${filledCount}/${expectedWords.length} blancs remplis</span>`;
                 }
             }, expectedWords.length * 100 + 200);
         }
@@ -797,8 +878,7 @@ shuffle($allWords);
             return text
                 .toLowerCase()
                 .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '') // Remove accents
-                .replace(/[^a-z0-9]/g, '');
+                .replace(/[\u0300-\u036f]/g, ''); // Remove accents
         }
     </script>
 </body>

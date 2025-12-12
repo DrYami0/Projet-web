@@ -1,0 +1,59 @@
+.difficulty-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.difficulty-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.difficulty-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-decoration: none;
+    color: inherit;
+}
+
+.difficulty-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.difficulty-card.easy .difficulty-icon {
+    color: #28a745;
+}
+
+.difficulty-card.medium .difficulty-icon {
+    color: #ffc107;
+}
+
+.difficulty-card.hard .difficulty-icon {
+    color: #dc3545;
+}
+
+.difficulty-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.difficulty-description {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    margin-top: 30px;
+}
+

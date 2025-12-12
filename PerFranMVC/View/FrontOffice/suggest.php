@@ -2,6 +2,9 @@
 session_start();
 require_once __DIR__ . '/../../Mail/QuizSuggestionEmailer.php';
 
+// Define BASE_URL relative to this file
+const BASE_URL = '../../';
+
 $error = '';
 $success = '';
 
@@ -42,202 +45,303 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suggérer un quizz</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/owl-mascot.css">
+    <link rel="stylesheet" href="assets/css/theme.css">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {
-            background: #f5f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-        }
-        
-        .container {
+        /* Custom styles for suggest page */
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 0 auto;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 40px;
         }
-        
+
         .header h1 {
-            color: #2c3e50;
+            color: #fff;
             font-weight: 700;
             margin-bottom: 10px;
+            font-size: 36px;
         }
-        
+
         .header p {
-            color: #7f8c8d;
-            font-size: 1.1rem;
+            color: #b0c4de;
+            font-size: 18px;
         }
-        
-        .form-container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        
+
         .note {
-            background-color: #e8f4f8;
-            border-left: 4px solid #3498db;
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid #00d4ff;
             padding: 15px;
             margin-bottom: 30px;
-            color: #2c3e50;
+            color: #e0e6ed;
             border-radius: 4px;
         }
-        
+
         .form-group {
             margin-bottom: 25px;
         }
-        
+
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .toolbar {
             margin-bottom: 10px;
-            display: flex;
-            justify-content: flex-end;
+            font-weight: 600;
+            color: #00d4ff;
+            font-size: 16px;
         }
-        
-        .btn-toolbar {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        
-        .btn-toolbar:hover {
-            background: #fcebe9;
-        }
-        
+
         .editor-container textarea {
             width: 100%;
             min-height: 150px;
             padding: 15px;
-            border: 2px solid #e0e0e0;
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.2);
             border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+            font-size: 16px;
+            color: #fff;
+            transition: all 0.3s;
             resize: vertical;
         }
-        
+
         .editor-container textarea:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #00d4ff;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
         }
-        
+
         .preview {
             margin-top: 15px;
             padding: 15px;
-            background: #f8f9fa;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
-            border: 1px dashed #cbd5e0;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            color: #b0c4de;
         }
-        
+
         .preview-label {
-            font-size: 0.85rem;
+            font-size: 12px;
             text-transform: uppercase;
-            color: #7f8c8d;
+            color: #00d4ff;
             margin-bottom: 8px;
             font-weight: 600;
+            letter-spacing: 1px;
         }
-        
+
         .blank-highlight {
-            background: #d6eaf8;
-            color: #2980b9;
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
             padding: 2px 6px;
             border-radius: 4px;
             font-weight: 600;
+            border: 1px solid rgba(0, 212, 255, 0.3);
         }
-        
-        select.form-control, input[type="text"].form-control {
+
+        /* Custom Select Styling */
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+        }
+
+        select.form-control {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: all 0.3s;
+        }
+
+        select.form-control:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        .select-arrow {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #00d4ff;
+            pointer-events: none;
+        }
+
+        /* Custom Checkbox Styling */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .checkbox-wrapper:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #00d4ff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            background: rgba(10, 22, 40, 0.6);
+        }
+
+        input[type="checkbox"]:checked + .custom-checkbox {
+            background: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .custom-checkbox i {
+            color: #0a1628;
+            font-size: 14px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s;
+        }
+
+        input[type="checkbox"]:checked + .custom-checkbox i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Intruders Container */
+        #intrudersContainer {
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(241, 196, 15, 0.1);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            border-radius: 8px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #intrudersContainer label {
+            color: #f1c40f;
+        }
+
+        #intrudersContainer input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e0e0e0;
+            background: rgba(10, 22, 40, 0.6);
+            border: 2px solid rgba(241, 196, 15, 0.3);
             border-radius: 8px;
-            font-size: 1rem;
-            height: auto;
+            color: #fff;
+            font-size: 16px;
         }
-        
-        select:focus, input[type="text"]:focus {
+
+        #intrudersContainer input:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #f1c40f;
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
         }
-        
+
+        .btn-toolbar {
+            background: transparent;
+            border: 1px solid rgba(231, 76, 60, 0.5);
+            color: #e74c3c;
+            padding: 5px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-toolbar:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
         .btn-submit {
-            background: #27ae60;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 15px 30px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
         }
-        
+
         .btn-submit:hover {
-            background: #219150;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
         }
-        
+
         .btn-cancel {
-            background: #95a5a6;
-            color: white;
-            border: none;
-            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        
+
         .btn-cancel:hover {
-            background: #7f8c8d;
-            color: white;
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
         }
-        
-        #intrudersContainer {
-            background: #fff3cd !important;
-            border-color: #ffeeba !important;
-            color: #856404;
-        }
-        
-        #intrudersContainer input {
-            border-color: #ffeeba;
-        }
-        
-        #intrudersContainer input:focus {
-            border-color: #ffc107;
-            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Navigation -->
+    <nav>
+        <div class="logo" onclick="window.location.href='index.php'">
+            <img src="<?= BASE_URL ?>View/Perfran.png" alt="PerFran Logo" style="height: 60px; width: auto;">
+        </div>
+        <div class="nav-links">
+            <a href="index.php#games">Jeux</a>
+            <a href="index.php#features">Fonctionnalités</a>
+        </div>
+        <div class="nav-buttons">
+            <a href="index.php" class="btn btn-outline">
+                <i class="fas fa-home"></i> Accueil
+            </a>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 120px; padding-bottom: 60px;">
         <div class="header">
             <h1>Suggérer un quizz</h1>
             <p>Proposez un nouveau quizz à la communauté</p>
@@ -260,8 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="paragraphEditor">Texte du quizz</label>
                     <div class="toolbar">
-                        <!-- "Ajouter un Blank" button removed as requested -->
-                        <button type="button" class="btn-toolbar secondary" onclick="clearEditor()">
+                        <button type="button" class="btn-toolbar" onclick="clearEditor()">
                             <i class="fa fa-trash"></i> Effacer
                         </button>
                     </div>
@@ -274,42 +377,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group" style="width: 100%;">
-                        <label for="difficulty">Difficulté</label>
-                        <select id="difficulty" name="difficulty" required>
+                <div class="form-group">
+                    <label for="difficulty">Difficulté</label>
+                    <div class="custom-select-wrapper">
+                        <select id="difficulty" name="difficulty" class="form-control" required>
                             <option value="easy">Facile (Easy)</option>
                             <option value="medium">Moyen (Medium)</option>
                             <option value="hard">Difficile (Hard)</option>
                         </select>
+                        <i class="fas fa-chevron-down select-arrow"></i>
                     </div>
-                    <!-- Status field removed as requested -->
                 </div>
                 
-                <div class="form-group" style="margin-top: 20px;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" id="hasIntruders" name="has_intruders" onchange="toggleIntruders()">
-                        <label for="hasIntruders" style="margin-bottom: 0; cursor: pointer;">Ajouter des mots intrus</label>
-                    </div>
+                <div class="form-group" style="margin-top: 30px;">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="hasIntruders" name="has_intruders" onchange="toggleIntruders()" style="display: none;">
+                        <span class="custom-checkbox">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span style="color: #fff; font-size: 16px;">Ajouter des mots intrus</span>
+                    </label>
                     
-                    <div id="intrudersContainer" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; border: 1px solid #ddd;">
-                        <label for="intruderWords">Mots intrus (séparés par des virgules)</label>
-                        <input type="text" id="intruderWords" name="intruder_words" class="form-control" placeholder="Ex: chien, oiseau, table">
-                        <small class="text-muted">Ces mots apparaîtront dans la liste mais ne seront pas dans le texte.</small>
+                    <div id="intrudersContainer" style="display: none;">
+                        <label for="intruderWords"><i class="fas fa-exclamation-triangle"></i> Mots intrus</label>
+                        <input type="text" id="intruderWords" name="intruder_words" placeholder="Ex: chien, oiseau, table (séparés par des virgules)">
+                        <small style="color: rgba(241, 196, 15, 0.8); display: block; margin-top: 8px;">Ces mots apparaîtront dans la liste mais ne seront pas dans le texte.</small>
                     </div>
                 </div>
                 
-                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <div style="display: flex; gap: 15px; margin-top: 40px;">
                     <button type="submit" class="btn-submit">
                         <i class="fa fa-paper-plane"></i> Envoyer suggestion
                     </button>
-                    <a href="index.html" class="btn-cancel">
+                    <a href="index.php" class="btn-cancel">
                         <i class="fa fa-times"></i> Annuler
                     </a>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 PerfRan - Tous droits réservés | <a href="login.php">Connexion</a></p>
+    </footer>
+
+    <!-- Interactive Owl Mascot -->
+    <script src="assets/js/owl-mascot.js"></script>
 
     <script src="assets/js/sweetalert2-helper.js"></script>
     <script>
@@ -319,12 +433,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const successMsg = document.getElementById('success-message');
             
             if (errorMsg && errorMsg.dataset.message) {
-                showError('Erreur !', errorMsg.dataset.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: errorMsg.dataset.message,
+                    confirmButtonColor: '#e74c3c',
+                    background: '#1a2f4a',
+                    color: '#fff'
+                });
             }
             
             if (successMsg && successMsg.dataset.message) {
-                showSuccess('Succès !', successMsg.dataset.message, function() {
-                    window.location.href = 'index.html'; // Redirect after success
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès !',
+                    text: successMsg.dataset.message,
+                    confirmButtonColor: '#2ecc71',
+                    background: '#1a2f4a',
+                    color: '#fff'
+                }).then(() => {
+                    window.location.href = 'index.php';
                 });
             }
         });
@@ -339,22 +467,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             let text = editor.value;
             // Remplacer [mot] par un highlight visuel
             text = text.replace(/\[([^\]]+)\]/g, '<span class="blank-highlight">[$1]</span>');
-            preview.innerHTML = text || '<em style="color: #999;">Aperçu du texte...</em>';
+            preview.innerHTML = text || '<em style="color: rgba(255,255,255,0.3);">Aperçu du texte...</em>';
         }
         
         function clearEditor() {
-            showConfirm(
-                'Effacer le texte',
-                'Êtes-vous sûr de vouloir effacer tout le texte ?',
-                'Oui, effacer',
-                'Annuler',
-                function(confirmed) {
-                    if (confirmed) {
-                        editor.value = '';
-                        updatePreview();
-                    }
+            Swal.fire({
+                title: 'Effacer le texte',
+                text: 'Êtes-vous sûr de vouloir effacer tout le texte ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e74c3c',
+                cancelButtonColor: '#3498db',
+                confirmButtonText: 'Oui, effacer',
+                cancelButtonText: 'Annuler',
+                background: '#1a2f4a',
+                color: '#fff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    editor.value = '';
+                    updatePreview();
                 }
-            );
+            });
         }
         
         // Initialiser l'aperçu
