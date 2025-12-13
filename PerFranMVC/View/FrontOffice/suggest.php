@@ -364,6 +364,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="paragraphEditor">Texte du quizz</label>
                     <div class="toolbar">
+                        <button type="button" class="btn-toolbar" style="border-color: #9b59b6; color: #9b59b6;" onclick="generateWithAI()">
+                            <i class="fas fa-magic"></i> Générer un quiz
+                        </button>
                         <button type="button" class="btn-toolbar" onclick="clearEditor()">
                             <i class="fa fa-trash"></i> Effacer
                         </button>
@@ -505,6 +508,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 container.style.display = 'none';
                 input.value = ''; // Clear input when unchecked
             }
+        }
+
+        function generateWithAI() {
+            Swal.fire({
+                title: 'Générer un quiz avec l\'IA',
+                width: '600px',
+                html:
+                    '<input id="swal-input1" class="swal2-input" placeholder="Thème (ex: La plage, Le restaurant...)" style="color: #333; background: #fff;">' +
+                    '<input id="swal-input2" class="swal2-input" type="number" min="3" max="8" placeholder="Nombre de blanks (min 3)" style="color: #333; background: #fff;">',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Générer',
+                cancelButtonText: 'Annuler',
+                confirmButtonColor: '#9b59b6',
+                background: '#1a2f4a',
+                color: '#fff',
+                preConfirm: () => {
+                    const theme = document.getElementById('swal-input1').value;
+                    const nbBlanks = document.getElementById('swal-input2').value;
+                    
+                    if (!theme) {
+                        Swal.showValidationMessage('Le thème est requis');
+                        return false;
+                    }
+                    if (!nbBlanks || nbBlanks < 3) {
+                        Swal.showValidationMessage('Le nombre de blanks doit être d\'au moins 3');
+                        return false;
+                    }
+                    
+                    return { theme: theme, nbBlanks: nbBlanks };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const { theme, nbBlanks } = result.value;
+                    
+                    // Show loading
+                    Swal.fire({
+                        title: 'Génération en cours...',
+                        text: 'L\'IA rédige votre quiz...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                        background: '#1a2f4a',
+                        color: '#fff'
+                    });
+                    
+                    // Call API
+                    fetch('<?= BASE_URL ?>Controller/generate_quiz.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ theme: theme, nbBlanks: nbBlanks })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            editor.value = data.paragraph;
+                            updatePreview();
+                            
+                            // Update difficulty
+                            const difficultySelect = document.getElementById('difficulty');
+                            difficultySelect.value = data.difficulty;
+                            
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Quiz généré !',
+                                text: 'Le texte a été inséré avec succès.',
+                                confirmButtonColor: '#2ecc71',
+                                background: '#1a2f4a',
+                                color: '#fff'
+                            });
+                        } else {
+                            throw new Error(data.message || 'Erreur inconnue');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur',
+                            text: error.message,
+                            confirmButtonColor: '#e74c3c',
+                            background: '#1a2f4a',
+                            color: '#fff'
+                        });
+                    });
+                }
+            });
         }
     </script>
 </body>

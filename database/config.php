@@ -22,4 +22,7 @@ function getDB() {
     
     return $pdo;
 }
+
+// AI Configuration
+define('GEMINI_API_KEY', 'AIzaSyAMFeQNBwW5kyxL7UCc0WuH21aKfGsfIDo');
 ?>
