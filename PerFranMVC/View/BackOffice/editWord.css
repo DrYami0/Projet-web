@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.MainTitle.smallHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    background: linear-gradient(135deg, #0195a8, #017a8a);
+    color: #fff;
+}
+
+.MainTitle.smallHeader .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.MainTitle.smallHeader img {
+    height: 56px;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.MainTitle.smallHeader h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.MainTitle.smallHeader p {
+    margin: 0;
+    opacity: .95;
+    font-size: 13px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 18px;
+    flex: 1;
+    width: 100%;
+}
+
+.formWrap {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #ececec;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+}
+
+.addForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.addForm label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    color: #125;
+}
+
+.addForm input[type="text"],
+.addForm select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #e6eef0;
+    background: #fff;
+    font-size: 15px;
+}
+
+.formActions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.empty {
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff6f6;
+    color: #a33;
+}
+
+footer {
+    background: linear-gradient(135deg, #0195a8, #017a8a);
+    color: #fff;
+    padding: 18px;
+    text-align: center;
+    margin-top: 18px;
+    border-radius: 8px;
+    margin: 18px;
+}
+
+@media(max-width: 900px) {
+    .addForm {
+        padding: 8px;
+    }
+    .formActions {
+        justify-content: stretch;
+        flex-direction: column-reverse;
+    }
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

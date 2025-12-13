@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="game1.css" type="text/css" rel="stylesheet" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="../../owl-mascot.css" type="text/css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PerFran | Jeu de Grammaire</title>
+  </head>
+  <body>
+    <a href="/projet-web/index.php" style="text-decoration: none">
+      <div class="MainTitle">
+        <img src="/projet-web/PerFranMVC/View/Perfran.png" alt="PerFran Logo" style="height: 60px;" loading="lazy" />
+        <p>Étudiez et jouez, Deux en un!</p>
+      </div>
+    </a>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.js" defer></script>
+    <script>
+      // Get logged-in username from PHP session
+      <?php
+      session_start();
+      $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Joueur 1';
+      echo "const currentUsername = " . json_encode($username) . ";";
+      ?>
+
+      // Read URL parameters for room joining
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramRoom = urlParams.get('roomId');
+      const paramMode = urlParams.get('mode');
+      const paramDiff = urlParams.get('difficulty');
+
+      if (paramRoom) {
+        // Joining existing room from DisplayGames
+        window.roomId = paramRoom;
+        window.gameMode = paramMode || 'multiplayer';
+        window.gameDifficulty = paramDiff || null;
+      } else {
+        // Starting fresh (mode selection)
+        window.roomId = null;
+        window.gameMode = 'solo';
+        window.gameDifficulty = null;
+      }
+
+      // Set player 1 name when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        const player1NameEl = document.getElementById('player1Name');
+        if (player1NameEl) {
+          player1NameEl.textContent = currentUsername;
+        }
+      });
+    </script>
+
+    <main class="container">
+      <section class="modeChoice">
+        <p>Choisissez le mode de jeu</p>
+        <button id="buttonSolo">Solo</button>
+        <button id="buttonMultiplayer">Multijoueur</button>
+      </section>
+
+      <section class="difficultyChoice hidden" style="animation: fadeInDown 0.5s ease;">
+        <p>Choisissez la difficulté</p>
+        <button data-diff="Easy" id="diffButtonEasy" class="difficulty-btn">Débutant</button>
+        <button data-diff="Medium" id="diffButtonMedium" class="difficulty-btn">Intermédiaire</button>
+        <button data-diff="Hard" id="diffButtonHard" class="difficulty-btn">Avancé</button>
+        <button id="backToMode" class="small">Retour</button>
+      </section>
+
+      <!-- Solo area -->
+      <section class="game soloGame hidden" aria-hidden="true" style="animation: fadeInDown 0.5s ease;">
+        <div id="countdownSolo" class="countdown-overlay hidden">
+          <!DOCTYPE html>
+          <html lang="fr">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Redirection...</title>
+            <meta http-equiv="refresh" content="0; url=game1.php">
+            <script>
+              // Preserve query parameters when redirecting to the PHP page
+              const qs = window.location.search;
+              window.location.replace('game1.php' + qs);
+            </script>
+          </head>
+          <body>
+            <p>Redirection vers la version PHP...</p>
+          </body>
+          </html>

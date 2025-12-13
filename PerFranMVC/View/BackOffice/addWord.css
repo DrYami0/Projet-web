@@ -1,0 +1,14 @@
+.addForm { display:flex; flex-direction:column; gap:12px; max-width:720px; margin:0 auto; }
+.addForm label { display:flex; flex-direction:column; gap:6px; font-weight:600; color:#125; }
+.addForm input[type="text"], .addForm select {
+  padding:10px 12px; border-radius:8px; border:1px solid #e6eef0; background:#fff; font-size:15px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+}
+.formActions { display:flex; gap:10px; justify-content:flex-end; margin-top:8px; }
+.empty { border-radius:8px; padding:10px; }
+
+@media(max-width:900px){
+  .addForm { padding:8px; }
+  .formActions { justify-content:stretch; flex-direction:column-reverse; }
+  .btn { width:100%; text-align:center; }
+}

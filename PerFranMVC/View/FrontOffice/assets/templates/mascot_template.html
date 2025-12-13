@@ -1,0 +1,125 @@
+hrtml
+<script>
+(function(){
+  'use strict';
+
+  var models = [
+    {value:'gemini-2.5-flash', label:'Gemini 2.5 Flash'},
+    {value:'gemini-2.5-pro', label:'Gemini 2.5 Pro'},
+    {value:'gemini-2.0-flash', label:'Gemini 2.0 Flash'},
+    {value:'gemini-flash-latest', label:'Gemini Flash Latest'},
+    {value:'gemini-2.5-flash-lite', label:'Gemini 2.5 Flash Lite'},
+    {value:'gemini-3-pro-preview', label:'Gemini 3 Pro (Preview)'}
+  ];
+  var selectedModelValue = models[0].value;
+  var deepThinking = false;
+
+  var modelMenu = document.getElementById('pf-owl-model-menu');
+  var modelTrigger = document.getElementById('model-select-trigger');
+
+  function buildModelMenu(){
+    modelMenu.innerHTML = '';
+    models.forEach(function(m){
+      var item = document.createElement('div');
+      item.className = 'pf-owl-model-item' + (m.value===selectedModelValue ? ' selected' : '');
+      item.dataset.value = m.value;
+      item.textContent = m.label;
+      item.addEventListener('click', function(){
+        selectedModelValue = this.dataset.value;
+        updateSelectedModel();
+        closeModelMenu();
+      });
+      modelMenu.appendChild(item);
+    });
+
+    var divider = document.createElement('div');
+    divider.style.borderTop = '1px solid rgba(255,255,255,0.06)';
+    divider.style.margin = '4px 0';
+    modelMenu.appendChild(divider);
+
+    var toggleWrap = document.createElement('div');
+    toggleWrap.className = 'pf-owl-model-item';
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = 'pf-deep-thinking';
+    checkbox.style.marginRight = '6px';
+    var label = document.createElement('label');
+    label.setAttribute('for','pf-deep-thinking');
+    label.textContent = 'Deep Thinking';
+    toggleWrap.appendChild(checkbox);
+    toggleWrap.appendChild(label);
+    modelMenu.appendChild(toggleWrap);
+
+    checkbox.addEventListener('change', function(){
+      deepThinking = this.checked;
+      console.log("Deep Thinking:", deepThinking);
+    });
+  }
+
+  function updateSelectedModel(){
+    var labelSpan = modelTrigger.querySelector('.pf-model-label');
+    var sel = models.find(m => m.value === selectedModelValue);
+    if(labelSpan && sel) labelSpan.textContent = sel.label;
+    Array.from(modelMenu.children).forEach(function(it){
+      if(it.dataset && it.dataset.value){
+        it.classList.toggle('selected', it.dataset.value === selectedModelValue);
+      }
+    });
+  }
+
+  function openModelMenu(){ modelMenu.style.display='block'; modelTrigger.setAttribute('aria-expanded','true'); }
+  function closeModelMenu(){ modelMenu.style.display='none'; modelTrigger.setAttribute('aria-expanded','false'); }
+
+  modelTrigger.addEventListener('click', function(e){
+    e.stopPropagation();
+    if(modelMenu.style.display === 'block') closeModelMenu(); else openModelMenu();
+  });
+
+  document.addEventListener('click', function(e){
+    if(!modelMenu.contains(e.target) && !modelTrigger.contains(e.target)) closeModelMenu();
+  });
+
+  // Thinking wave effect
+  function setThinking(isThinking){
+    if(modelTrigger){
+      if(isThinking){
+        modelTrigger.classList.add('thinking');
+      } else {
+        modelTrigger.classList.remove('thinking');
+      }
+    }
+  }
+
+  // Inject into your sendMessage flow:
+  // setThinking(true); // when bot starts thinking
+  // setThinking(false); // when bot finishes
+
+  buildModelMenu();
+  updateSelectedModel();
+})();
+</script>
+
+
+
+css;
+.pf-owl-model-display.thinking {
+  position: relative;
+  overflow: hidden;
+}
+.pf-owl-model-display.thinking::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -150%;
+  width: 250%; height: 100%;
+  background: linear-gradient(90deg,
+    rgba(255,0,150,0.3),
+    rgba(0,200,255,0.3),
+    rgba(0,255,150,0.3),
+    rgba(255,200,0,0.3)
+  );
+  animation: pf-wave 2s linear infinite;
+}
+@keyframes pf-wave {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "perfran-ai-assistant",
+  "version": "1.0.0",
+  "description": "AI Mascot Assistant for PerfRan using Gemini API",
+  "main": "ai-server.js",
+  "scripts": {
+    "start": "node ai-server.js",
+    "dev": "nodemon ai-server.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

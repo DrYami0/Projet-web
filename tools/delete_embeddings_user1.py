@@ -1,0 +1,11 @@
+import mysql.connector
+cnx = mysql.connector.connect(host='localhost', user='root', password='', database='2a10_projet')
+cur = cnx.cursor()
+cur.execute('SELECT COUNT(*) FROM user_face_embeddings WHERE user_uid = %s', (1,))
+print('before delete count:', cur.fetchone()[0])
+cur.execute('DELETE FROM user_face_embeddings WHERE user_uid = %s', (1,))
+cnx.commit()
+cur.execute('SELECT COUNT(*) FROM user_face_embeddings WHERE user_uid = %s', (1,))
+print('after delete count:', cur.fetchone()[0])
+cur.close()
+cnx.close()

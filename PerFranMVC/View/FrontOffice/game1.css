@@ -1,0 +1,836 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-size: large;
+  line-height: 25px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #e2e8f0;
+  background: linear-gradient(135deg, #0a1628 0%, #1a2f4a 100%);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header Styles */
+.MainTitle {
+  padding: 20px 0;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(10, 22, 40, 0.95) 0%, rgba(26, 47, 74, 0.95) 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.1);
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.MainTitle:hover {
+  box-shadow: 0 6px 25px rgba(0, 212, 255, 0.3);
+  border-bottom-color: rgba(0, 212, 255, 0.4);
+}
+
+.MainTitle img {
+  display: block;
+  margin: 0 auto 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Container & Layout */
+.container {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Game Elements */
+.modeChoice,
+.difficultyChoice,
+.gameStarter,
+.game {
+  text-align: center;
+  width: 100%;
+}
+
+.gameStarter {
+  font-size: larger;
+  margin: auto;
+  font-weight: 500;
+}
+
+.game {
+  font-size: larger;
+  margin: auto;
+  font-weight: 500;
+}
+
+/* Buttons */
+button {
+  font-size: 16px;
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  color: #0a1628;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.waiting-opponent button {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #00ffff, #00d4ff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button.small {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #666;
+}
+
+/* Game UI Elements */
+.labelTimer {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  padding: 8px 16px;
+  color: #333;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.wordSelector {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  color: #333;
+  padding: 24px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 28px;
+  border-radius: 16px;
+  margin: 15px auto;
+  min-width: 200px;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.wordSelector:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Answers Grid */
+.answers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 760px;
+  margin: 16px auto;
+}
+
+.answers .answersBtn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  min-width: 120px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #0195a8, #017a8a);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.answers .answersBtn:hover {
+  background: linear-gradient(135deg, #017a8a, #015a66);
+  transform: translateY(-2px);
+}
+
+/* Score & Results */
+.score {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 35px;
+  padding: 20px 30px;
+  color: #333;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.gameResults {
+  text-align: center;
+  color: #e74c3c;
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.wrongChoices {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  color: #333;
+  text-align: center;
+  display: inline-block;
+  border-radius: 25px;
+  padding: 12px 20px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Multiplayer Split Screen */
+.multiplayer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.split {
+  display: flex;
+  width: 100%;
+  min-height: 400px;
+  gap: 20px;
+  align-items: stretch;
+  margin: 20px 0;
+}
+
+.playerPanel {
+  flex: 1;
+  background: linear-gradient(135deg, #2a3a4a, #1f2f3f);
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.divider {
+  width: 4px;
+  background: linear-gradient(to bottom, #0195a8, #017a8a);
+  border-radius: 2px;
+  margin: 0 10px;
+}
+
+/* COUNTDOWN OVERLAY */
+.countdownOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 220ms ease;
+  visibility: hidden;
+}
+
+.countdownOverlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* hide selection and answer UI while countdown active */
+.countdown-active .modeChoice,
+.countdown-active .difficultyChoice {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 180ms, transform 180ms;
+}
+
+/* hide all answers grids and player actions during countdown */
+.countdown-active .answers,
+.countdown-active .playerPanel .answers,
+.countdown-active .multiplayerHeader {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms;
+}
+
+/* also hide individual answer buttons (extra safety) */
+.countdown-active .answers .answersBtn,
+.countdown-active .answersBtn {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ensure countdown card remains visually on white background */
+.countdownCard {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 34px 44px;
+  text-align: center;
+  box-shadow: 0 18px 60px rgba(2, 60, 70, 0.12);
+}
+
+.countdownText {
+  font-size: 64px;
+  font-weight: 800;
+  color: #017a8a;
+  letter-spacing: 1px;
+  margin: 6px 0;
+  text-transform: uppercase;
+}
+
+.countdownSub {
+  font-size: 18px;
+  color: #22666b;
+  margin-top: 6px;
+}
+
+/* small flourish ring for numbers */
+.ring {
+  width: 160px;
+  height: 160px;
+  margin: 8px auto 12px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 20%, rgba(1, 149, 168, 0.12), transparent 35%);
+  border: 2px dashed rgba(1, 149, 168, 0.12);
+}
+
+.ring.num-small {
+  width: 120px;
+  height: 120px;
+}
+
+.countdownNumber {
+  font-size: 56px;
+  color: #014b50;
+  font-weight: 900;
+}
+
+/* accessible hidden helper */
+.sr-only {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Generic helper to actually hide elements when scripts toggle the class */
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Results table styling (matching displayWords.css) */
+.resultsContainer {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #ececec;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+  margin-top: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.resultsTable caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 8px;
+  font-weight: 700;
+  color: #017a8a;
+}
+
+.resultsTable thead th {
+  background: linear-gradient(180deg, #f6f9fa, #eef6f8);
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e6eef0;
+  font-weight: 600;
+  color: #333;
+}
+
+.resultsTable tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px dashed #f0f4f5;
+}
+
+.resultsTable tbody tr:hover {
+  background: linear-gradient(90deg, rgba(1, 149, 168, 0.04), transparent);
+}
+
+.cell-word {
+  font-weight: 600;
+  color: #017a8a;
+}
+
+.cell-type {
+  color: #666;
+  font-style: italic;
+}
+
+.btn-explain {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0195a8, #017a8a);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-explain:hover {
+  background: linear-gradient(135deg, #017a8a, #015a66);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-explain:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .split {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .answers .answersBtn {
+    min-width: 45%;
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .wordSelector {
+    font-size: 24px;
+    padding: 20px;
+  }
+
+  .container {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .resultsContainer {
+    padding: 16px;
+    margin: 16px;
+  }
+
+  .resultsTable thead th,
+  .resultsTable tbody td {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .btn-explain {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: medium;
+    line-height: 22px;
+  }
+
+  button {
+    padding: 10px 18px;
+    font-size: 14px;
+    margin: 6px;
+    width: 90%;
+    max-width: 200px;
+  }
+
+  .wordSelector {
+    font-size: 20px;
+    padding: 16px;
+    min-width: 150px;
+  }
+
+  .score {
+    padding: 15px 20px;
+    font-size: 16px;
+  }
+
+  .answers .answersBtn {
+    min-width: 90%;
+  }
+
+  .playerPanel {
+    padding: 16px;
+  }
+}
+
+footer {
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #0195a8, #017a8a);
+  color: #fff;
+  padding: 18px 12px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Explanation Modal */
+.explanation-modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2000;
+}
+
+.explanation-content {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideIn 300ms ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.explanation-content h3 {
+  margin: 0 0 16px 0;
+  color: #017a8a;
+  font-size: 18px;
+}
+
+.explanation-content p {
+  margin: 0 0 20px 0;
+  color: #333;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.explanation-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  transition: color 0.2s ease;
+}
+
+.explanation-close:hover {
+  color: #333;
+}
+
+.explanation-ok {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #0195a8, #017a8a);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.explanation-ok:hover {
+  background: linear-gradient(135deg, #017a8a, #015a66);
+  transform: translateY(-2px);
+}
+
+.explanation-ok:active {
+  transform: translateY(0);
+}
+
+/* if you want the footer content to match container width */
+footer .footer-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 12px;
+  text-align: center;
+}
+
+/* --- Demo animation: ONE TIME ONLY (removed infinite) --- */
+
+/* demo animation (adapted to plain CSS) */
+.demo {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 20px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.demo__colored-blocks {
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 500px;
+  height: 100%;
+  margin-left: -250px;
+  padding: 10px;
+  border-radius: 20px;
+  perspective: 1000px;
+  animation: demoAnim 4s ease-in-out forwards, contAnim 4s forwards;
+}
+
+.demo__colored-blocks-rotater {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  animation: rotation 1.3s linear forwards;
+}
+
+.demo__colored-blocks-inner {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  background: transparent;
+  border-radius: inherit;
+}
+
+/* three large triangular blocks */
+.demo__colored-block {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300%;
+  height: 300%;
+  transform-origin: 0 0;
+}
+.demo__colored-block:nth-child(1) { transform: rotate(0deg) skewX(30deg); background: #FD3359; }
+.demo__colored-block:nth-child(2) { transform: rotate(120deg) skewX(-30deg); background: #F4D302; }
+.demo__colored-block:nth-child(3) { transform: rotate(240deg) skewX(-30deg); background: #21BDFF; }
+
+.demo__inner { 
+  overflow: visible; 
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -70px;
+  z-index: 10;
+}
+
+/* numbers container (for SVG paths) */
+.demo__numbers {
+  overflow: visible;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+.demo__numbers-path {
+  fill: none;
+  stroke-width: 10px;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0, 6666;
+  stroke-dashoffset: 0;
+  animation: numAnim 4s ease-in-out forwards;
+  opacity: 0;
+}
+
+/* large text over the demo */
+.demo__text {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 500px;
+  height: 140px;
+  margin-left: -250px;
+  text-align: center;
+  line-height: 140px;
+  font-size: 100px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 15px;
+  transform: translateX(10px);
+  animation: hideText 4s forwards;
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* animation values adapted from SCSS version */
+@keyframes contAnim {
+  0%, 15% { margin-left: -250px; width: 500px; }
+  25%, 90%  { margin-left: -70px; width: 140px; }
+  100% { margin-left: -250px; width: 500px; }
+}
+
+@keyframes numAnim {
+  0%, 15% {
+    stroke-dasharray: 0, 6666;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  25%, 41% {
+    opacity: 1;
+    stroke-dasharray: 144.4, 6666;
+    stroke-dashoffset: -40;
+  }
+  53%, 66% {
+    opacity: 1;
+    stroke-dasharray: 136.0, 6666;
+    stroke-dashoffset: -186.0;
+  }
+  76%, 87% {
+    opacity: 1;
+    stroke-dasharray: 72.15, 6666;
+    stroke-dashoffset: -364.0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dasharray: 72.15, 6666;
+    stroke-dashoffset: -364.0;
+  }
+}
+
+@keyframes rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes demoAnim {
+  0%, 15%  { border-radius: 20px; transform: rotate(0deg); }
+  25%, 43% { border-radius: 50%; transform: rotate(360deg); }
+  52%, 65% { border-radius: 0; transform: rotate(720deg); }
+  76%, 90% { border-radius: 50%; transform: rotate(1080deg); }
+  100% { border-radius: 20px; transform: rotate(1440deg); }
+}
+
+@keyframes hideText {
+  0%, 15% { opacity: 1; }
+  20%, 96%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* keep our existing background and other styles unchanged */
