@@ -13,8 +13,36 @@ class EventsController
 
     public function index(): void
     {
-        $stmt = $this->pdo->query('SELECT eid, title, endDate, gift1, gift2, gift3 FROM events ORDER BY eid DESC');
-        $rows = $stmt->fetchAll();
+        $searchTerm = isset($_GET['q']) ? trim((string)$_GET['q']) : '';
+        $toDate     = isset($_GET['to_date']) ? trim((string)$_GET['to_date']) : '';
+
+        $conditions = [];
+        $params     = [];
+
+        if ($searchTerm !== '') {
+            $conditions[] = 'title LIKE ?';
+            $params[]     = '%' . $searchTerm . '%';
+        }
+
+        if ($toDate !== '') {
+            $conditions[] = 'DATE(endDate) <= ?';
+            $params[]     = $toDate;
+        }
+
+        $sql = 'SELECT eid, title, endDate, gift1, gift2, gift3 FROM events';
+        if (!empty($conditions)) {
+            $sql .= ' WHERE ' . implode(' AND ', $conditions);
+        }
+        $sql .= ' ORDER BY eid DESC';
+
+        if (!empty($params)) {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+        } else {
+            $stmt = $this->pdo->query($sql);
+            $rows = $stmt->fetchAll();
+        }
 
         $events = [];
         foreach ($rows as $row) {

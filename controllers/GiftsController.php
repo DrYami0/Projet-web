@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/Database.php';
+require_once __DIR__ . '/../../config/Gemini.php';
 require_once __DIR__ . '/../models/Gift.php';
 
 class GiftsController
@@ -13,8 +14,36 @@ class GiftsController
 
     public function index(): void
     {
-        $stmt = $this->pdo->query('SELECT id, name, points FROM gifts ORDER BY id DESC');
-        $rows = $stmt->fetchAll();
+        $searchTerm = isset($_GET['q']) ? trim((string)$_GET['q']) : '';
+        $minPoints  = isset($_GET['min_points']) ? trim((string)$_GET['min_points']) : '';
+
+        $conditions = [];
+        $params     = [];
+
+        if ($searchTerm !== '') {
+            $conditions[] = 'name LIKE ?';
+            $params[]     = '%' . $searchTerm . '%';
+        }
+
+        if ($minPoints !== '' && is_numeric($minPoints)) {
+            $conditions[] = 'points >= ?';
+            $params[]     = (int)$minPoints;
+        }
+
+        $sql = 'SELECT id, name, points FROM gifts';
+        if (!empty($conditions)) {
+            $sql .= ' WHERE ' . implode(' AND ', $conditions);
+        }
+        $sql .= ' ORDER BY id DESC';
+
+        if (!empty($params)) {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+        } else {
+            $stmt = $this->pdo->query($sql);
+            $rows = $stmt->fetchAll();
+        }
 
         $gifts = [];
         foreach ($rows as $row) {
@@ -124,5 +153,42 @@ class GiftsController
 
         $name = $row['name'];
         include __DIR__ . '/../views/gifts/delete.php';
+    }
+
+    public function generateDescription(): void
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['error' => 'Method not allowed']);
+            return;
+        }
+
+        $name   = trim($_POST['name'] ?? '');
+        $points = trim($_POST['points'] ?? '0');
+
+        if ($name === '' || !is_numeric($points)) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid input']);
+            return;
+        }
+
+        $client = new GeminiClient();
+        $result = $client->generateGiftDescription($name, (int)$points);
+
+        if (!is_array($result) || $result['description'] === null) {
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Unable to generate description',
+                'debug' => is_array($result) ? ($result['debug'] ?? null) : null,
+            ]);
+            return;
+        }
+
+        echo json_encode([
+            'description' => $result['description'],
+            'debug'       => $result['debug'],
+        ]);
     }
 }

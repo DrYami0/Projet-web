@@ -7,6 +7,22 @@ ob_start();
         <a href="index.php?controller=events&action=create" class="btn btn-sm btn-primary">Create Event</a>
     </div>
     <div class="card-body">
+        <form class="row g-2 mb-3" method="get" action="index.php">
+            <input type="hidden" name="controller" value="events">
+            <input type="hidden" name="action" value="index">
+            <div class="col-md-6">
+                <label class="form-label mb-1">Search by title</label>
+                <input type="text" name="q" class="form-control" value="<?= htmlspecialchars($searchTerm ?? '', ENT_QUOTES, 'UTF-8') ?>" placeholder="Enter part of the event title">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label mb-1">To date (end date)</label>
+                <input type="date" name="to_date" class="form-control" value="<?= htmlspecialchars($toDate ?? '', ENT_QUOTES, 'UTF-8') ?>">
+            </div>
+            <div class="col-md-2 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <a href="index.php?controller=events&action=index" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </form>
         <?php if (empty($events)): ?>
             <p class="mb-0">No events found.</p>
         <?php else: ?>
